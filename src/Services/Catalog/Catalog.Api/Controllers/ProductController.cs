@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace Catalog.Api.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Produces("application/json")]
-    //[ApiController]
-    [Route("products")]
+    [ApiController]
+    [Route("v1/products")]
     public class ProductController : Controller
     {
 

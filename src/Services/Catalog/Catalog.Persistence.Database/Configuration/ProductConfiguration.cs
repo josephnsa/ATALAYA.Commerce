@@ -14,8 +14,8 @@ namespace Catalog.Persistence.Database.Configuration
             entityTypeBuilder.Property(x => x.Description).IsRequired().HasMaxLength(500);
 
             #region Products by default
-            List<Product> products = new List<Product>();
-            Random random = new Random();
+            List<Product> products = new();
+            Random random = new();
             for (int i = 1; i <= 100; i++)
             {
                 products.Add(new Product

@@ -66,11 +66,13 @@ namespace Catalog.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog.Api v1"));
             }
-
-            loggerFactory.AddSyslog(
+            else
+            {
+                loggerFactory.AddSyslog(
                 Configuration.GetValue<string>("Papertrail:host"),
                 Configuration.GetValue<int>("Papertrail:port")
                 );
+            }
 
             app.UseRouting();
 

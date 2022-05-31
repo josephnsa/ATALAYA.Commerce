@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Catalog.Api.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("v1/stocks")]
     public class ProductStockController : ControllerBase

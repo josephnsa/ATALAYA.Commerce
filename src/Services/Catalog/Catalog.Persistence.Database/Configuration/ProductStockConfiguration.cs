@@ -11,8 +11,8 @@ namespace Catalog.Persistence.Database.Configuration
         {
             entityTypeBuilder.HasKey(x => x.ProductStockId);
 
-            var random = new Random();
-            var products = new List<ProductStock>();
+            List<ProductStock> products = new();
+            Random random = new();
 
             for (int i = 1; i <= 100; i++)
             {

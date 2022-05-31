@@ -8,7 +8,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Catalog.Tests
@@ -18,7 +17,7 @@ namespace Catalog.Tests
         private static ILogger<ProductInStockUpdateStockEventHandler> GetIlogger => new Mock<ILogger<ProductInStockUpdateStockEventHandler>>().Object;
 
         [Fact]
-        public async Task TryToSubstractStockWhenProductHasStock()
+        public void TryToSubstractStockWhenProductHasStock()
         {
             Persistence.Database.ApplicationDbContext context = ApplicationDbContextInMemory.Get();
 
@@ -37,7 +36,7 @@ namespace Catalog.Tests
 
             ProductInStockUpdateStockEventHandler command = new(context, GetIlogger);
 
-            await command.Handle(new ProductInStockUpdateStockCommand
+            command.Handle(new ProductInStockUpdateStockCommand
             {
                 Items = new List<ProductInStockUpdateItem> {
                     new ProductInStockUpdateItem {
@@ -46,11 +45,10 @@ namespace Catalog.Tests
                         Action = Common.Enums.ProductInStockAction.Substract
                     }
                 }
-            }, new System.Threading.CancellationToken());
+            }, new System.Threading.CancellationToken()).Wait();
         }
 
         [Fact]
-        //[ExpectedException(typeof(ProductInStockUpdateStockCommandException))]
         public void TryToSubstractStockWhenProductHasntStock()
         {
             Persistence.Database.ApplicationDbContext context = ApplicationDbContextInMemory.Get();
@@ -70,7 +68,7 @@ namespace Catalog.Tests
 
             context.SaveChanges();
 
-            ProductInStockUpdateStockEventHandler command = new ProductInStockUpdateStockEventHandler(context, GetIlogger);
+            ProductInStockUpdateStockEventHandler command = new(context, GetIlogger);
 
             try
             {
@@ -89,11 +87,9 @@ namespace Catalog.Tests
             {
                 if (ae.GetBaseException() is ProductInStockUpdateStockCommandException)
                 {
-                    //throw new ProductInStockUpdateStockCommandException(ae.InnerException?.Message);
                     expectedException = new ProductInStockUpdateStockCommandException(ae.InnerException?.Message);
                 }
             }
-
             Assert.NotNull(expectedException);
             Assert.IsType<ProductInStockUpdateStockCommandException>(expectedException);
         }
